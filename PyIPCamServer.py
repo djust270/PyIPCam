@@ -3,12 +3,12 @@ from flask import Flask
 from flask import render_template
 import threading
 import argparse
-import datetime
 import imutils
 from imutils.video import VideoStream
-import time
 import cv2
 from numpy import vdot
+import os
+import sys
 
 # define arguments 
 parser = argparse.ArgumentParser()
@@ -16,7 +16,6 @@ parser.add_argument("-port", dest="serv_port" , type=str, default='8000', help="
 parser.add_argument("-index", dest="cam_index" , type=int, default = 0, help="Camera index number")
 parser.add_argument("-width", dest="img_width" , type=int, default = 640, help="Camera Width in pixels")
 parser.add_argument("-height", dest="img_height" , type=int, default = 480, help="Camera Width in pixels")
-
 
 args = vars(parser.parse_args())
 resolution=(int(args['img_width']), int(args['img_height']))
@@ -44,7 +43,11 @@ def vid_stream(stream_type):
 			bytearray(encodedImage) + b'\r\n')
 		if stream_type == "im":
 			break
-cam_app = Flask(__name__)
+if getattr(sys, 'frozen', False):
+	template_folder = os.path.join(sys._MEIPASS, 'templates')
+	cam_app = Flask(__name__ , template_folder=template_folder)
+else :
+	cam_app = Flask(__name__)
 @cam_app.route("/")
 def index():
 	return render_template("index.html")
