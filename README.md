@@ -11,4 +11,4 @@ PyIPCamServer.py (or PyIPCamServer.exe) -port *tcp port,default = 8000* -index *
 
 Example:
 PyIPCamServer -index 0 -width 1280 -height 720
-*Use camera 0 with resoltion 1280x720
+*Use camera 0 with resoltion 1280x720*
